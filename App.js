@@ -5,11 +5,16 @@ import AppointmentService from "./services/aryeo/AppointmentService";
 
 export default function App() {
     useEffect(() => {
-        // getAppointments();
+        getAppointments();
     }, []);
 
     async function getAppointments() {
         const result = await AppointmentService.appointments();
+        console.log(result);
+    }
+
+    async function getAppointment(appointment_id) {
+        const result = await AppointmentService.appointment(appointment_id);
         console.log(result);
     }
 
