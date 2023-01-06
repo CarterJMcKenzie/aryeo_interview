@@ -16,7 +16,6 @@ async function appointments() {
         // Optional parameters...
         params: {
             "filter[search]": "", // (string) text search for appointment address or customer
-            "filter[statuses][]": "", // (string, mulitple) possible values: SCHEDULED, UNSCHEDULE, CANCELED, DRAFT
             "filter[statuses][]": "", // (string, multiple) possible values: SCHEDULED, UNSCHEDULE, CANCELED, DRAFT
             "filter[tense]": "UPCOMING", // (string) possible values: PAST, UPCOMING
             "filter[start_at_gte]": "2022-03-12T22:31:21Z", // (date string)

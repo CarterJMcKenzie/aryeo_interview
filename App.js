@@ -1,36 +1,8 @@
-import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import AppointmentService from "./services/aryeo/AppointmentService";
+import React from 'react';
+import Providers from './src';
 
-export default function App() {
-    useEffect(() => {
-        getAppointments();
-    }, []);
+const App = () => {
+    return <Providers />;
+};
 
-    async function getAppointments() {
-        const result = await AppointmentService.appointments();
-        console.log(result);
-    }
-
-    async function getAppointment(appointment_id) {
-        const result = await AppointmentService.appointment(appointment_id);
-        console.log(result);
-    }
-
-    return (
-        <View style={styles.container}>
-            <Text>Open up App.js to start working on your app!</Text>
-            <StatusBar style="auto" />
-        </View>
-    );
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
+export default App;
