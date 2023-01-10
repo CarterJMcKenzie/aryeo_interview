@@ -9,20 +9,20 @@ async function appointment(appointment_id) {
     });
 }
 
-async function appointments() {
+async function appointments(statusFilter, searchFilter, historyFilter, pageFilter) {
     return await aryeoRequest({
         url: `/appointments`,
         method: "GET",
         // Optional parameters...
         params: {
-            "filter[search]": "", // (string) text search for appointment address or customer
-            "filter[statuses][]": "", // (string, multiple) possible values: SCHEDULED, UNSCHEDULE, CANCELED, DRAFT
-            "filter[tense]": "UPCOMING", // (string) possible values: PAST, UPCOMING
-            "filter[start_at_gte]": "2022-03-12T22:31:21Z", // (date string)
-            "filter[start_at_lte]": "2022-03-12T22:31:21Z", // (date string)
-            "sort": "-start_timestamp,-created_at", // (string) comma-separated listed with -start_timestamp or -created_at
+            "filter[search]": searchFilter, // (string) text search for appointment address or customer
+            "filter[statuses][]": statusFilter, // (string, multiple) possible values: SCHEDULED, UNSCHEDULED, CANCELED, DRAFT
+            "filter[tense]": historyFilter, // (string) possible values: PAST, UPCOMING
+            "filter[start_at_gte]": "2021-03-12T22:31:21Z", // (date string)
+            "filter[start_at_lte]": "2024-03-12T22:31:21Z", // (date string)
+            "sort": "-start_at,-created_at", // (string) comma-separated listed with -start_timestamp or -created_at
             "per_page": 25, // (int)
-            "page": 1, // (int)
+            "page": pageFilter, // (int)
         },
         headers: authHeaders(),
     });
@@ -39,13 +39,13 @@ async function appointmentCancel(appointment_id) {
     });
 }
 
-async function appointmentReschedule(appointment_id) {
+async function appointmentReschedule(appointment_id, new_start, new_end) {
     return await aryeoRequest({
         url: `/appointments/${appointment_id}/schedule`,
         method: "PUT",
         data: {
-            start_at: "2022-03-12T22:31:21Z",
-            end_at: "2022-03-12T24:31:21Z",
+            start_at: new_start,
+            end_at: new_end,
             notify_customer: true,
         },
         headers: authHeaders(),
