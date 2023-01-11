@@ -9,11 +9,10 @@ import {
 import {modalStyles, textStyles} from "../styles/Styles";
 
 export default function ModalGeneric({
-                                         modalVisible,
-                                         setModalVisible,
-                                         confirmationAction,
-                                         text,
-                                     }) {
+                         modalVisible,
+                         setModalVisible,
+                         confirmationAction,
+                         text}) {
     return (
         // generic modal with confirmation action, only usage so far in this app but would be helpful as need arose
         <Modal transparent={true} visible={modalVisible}>

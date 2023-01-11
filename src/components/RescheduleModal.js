@@ -7,21 +7,23 @@ import {
     TouchableOpacity, Platform, Pressable,
 } from 'react-native';
 import {AppContext} from "../providers/AppProvider";
-import {modalStyles, textStyles} from "../styles/Styles";
+import {modalStyles, shortDateFormat, textStyles} from "../styles/Styles";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import appointmentService from "../../services/aryeo/AppointmentService";
+import {makeDateTimeString} from "../functions/DateHandler";
+import GenericDatePicker from "./GenericDatePicker";
 
 export default function RescheduleModal({activeAppointment, modalVisible, setModalVisible}) {
     // I believe the boolean string error is in here, but I poked around and nothing seemed off
     const {setActiveAppointment, setAppointments, setStatusFilter} = useContext(AppContext);
-    const [newStart, setNewStart] = useState('');
-    const [newEnd, setNewEnd] = useState('');
+    const [newStart, setNewStart] = useState(false);
+    const [newEnd, setNewEnd] = useState(false);
     const [date, setDate] = useState(new Date());
     const [modalText, setModalText] = useState('Select Appointment Start');
 
     function onConfirm() {
-        if (newStart.length > 0) {
-            if (newEnd.length > 0) {
+        if (newStart) {
+            if (newEnd) {
                 // reschedule the appointment then fetch the fresh data for this appointment and the dashboard
                 appointmentService.appointmentReschedule(activeAppointment.id, newStart, newEnd).then((response) => {
                     appointmentService.appointment(activeAppointment.id).then((result) => {
@@ -54,25 +56,19 @@ export default function RescheduleModal({activeAppointment, modalVisible, setMod
                             <View
                                 style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 3}}>
                                 <Text style={textStyles.smallBold}>Start:  </Text>
-                                <Text style={textStyles.medium}>{new Date(newStart).toLocaleDateString(undefined,{weekday: "short", day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit'})}</Text>
+                                <Text style={textStyles.medium}>{makeDateTimeString(new Date(newStart), shortDateFormat)}</Text>
                             </View>
                             <View
                                 style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 3}}>
                                 <Text style={textStyles.smallBold}>End:  </Text>
-                                <Text style={textStyles.medium}>{new Date(newEnd).toLocaleDateString(undefined,{weekday: "short", day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit'})}</Text>
+                                <Text style={textStyles.medium}>{makeDateTimeString(new Date(newEnd), shortDateFormat)}</Text>
                             </View>
                         </View>
                          :
-                        <RNDateTimePicker
-                            mode={'datetime'}
-                            minimumDate={newStart ? newStart : false}
-                            display={'spinner'}
-                            minuteInterval={5}
-                            onChange={(result, selectedDate) => {
-                                setDate(selectedDate)
-                            }}
-                            value={date}
-                            style={{width: '100%', height: 150}}
+                        <GenericDatePicker
+                            newStart={newStart}
+                            setDate={setDate}
+                            date={date}
                         />
                     }
                     <View

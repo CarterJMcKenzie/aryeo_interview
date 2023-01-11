@@ -8,6 +8,8 @@ export const fontSize1 = {
     xxlarge: 38,
 };
 
+export const shortDateFormat = {weekday: "short", day: 'numeric', month: 'short'}
+
 export const screenStyles = StyleSheet.create({
     safeView: {
         flex: 1,

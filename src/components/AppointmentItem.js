@@ -4,7 +4,8 @@ import React, {useContext} from 'react';
 import {Pressable, Text, View} from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import {AppContext} from "../providers/AppProvider";
-import {textStyles, viewStyles} from "../styles/Styles";
+import {shortDateFormat, textStyles, viewStyles} from "../styles/Styles";
+import {makeDateString, makeTimeString} from "../functions/DateHandler";
 
 export default function AppointmentItem({appointment, index, previous}) {
     const navigator = useNavigation();
@@ -19,13 +20,13 @@ export default function AppointmentItem({appointment, index, previous}) {
                         <View
                         style={viewStyles.sectionHeader}
                         >
-                            <Text style={textStyles.mediumBold}>{new Date(appointment.start_at).toLocaleDateString(undefined,{weekday: "short", day: 'numeric', month: 'short'})}</Text>
+                            <Text style={textStyles.mediumBold}>{makeDateString(new Date(appointment.start_at), shortDateFormat)}</Text>
                         </View>
                     }
                 </View>
                 :
                 <View>
-                    <Text style={textStyles.mediumBold}>{new Date(appointment.start_at).toLocaleDateString(undefined,{weekday: "short", day: 'numeric', month: 'short'})}</Text>
+                    <Text style={textStyles.mediumBold}>{makeDateString(new Date(appointment.start_at), shortDateFormat)}</Text>
                 </View>
             }
             <Pressable
@@ -37,7 +38,7 @@ export default function AppointmentItem({appointment, index, previous}) {
             >
                 <Text style={{fontSize: fontSize.medium}}>{appointment.title}</Text>
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <Text style={{marginTop: 3}}>{new Date(appointment.start_at).toLocaleTimeString(undefined, {hour12: true, hour: 'numeric', minute: '2-digit'})} - {new Date(appointment.end_at).toLocaleTimeString(undefined, {hour12: true, hour: 'numeric', minute: '2-digit'})}</Text>
+                    <Text style={{marginTop: 3}}>{makeTimeString(new Date(appointment.start_at))} - {makeTimeString(new Date(appointment.end_at))}</Text>
                     <Text
                         style={textStyles.coloredButtonSmall}
                     >

@@ -8,7 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import {screenStyles, textStyles} from '../styles/Styles';
 import {AppContext} from '../providers/AppProvider';
 
-export default function CustomScreenContainer({title, icon, destination, children}) {
+export default function GenericScreen({title, icon, destination, children}) {
     const navigation = useNavigation();
 
     const {appColor, fontSize} = useContext(AppContext);
@@ -20,10 +20,10 @@ export default function CustomScreenContainer({title, icon, destination, childre
             <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
                 <StatusBar
                     animated={true}
-                    backgroundColor="#61dafb"
+                    backgroundColor='#ebebeb'
                     barStyle={'dark-content'}
                     showHideTransition={'none'}
-                    hidden={'Visible'}
+                    hidden={false}
                 />
                 <View style={screenStyles.headerView}>
                     <View style={{flex: 1}}>

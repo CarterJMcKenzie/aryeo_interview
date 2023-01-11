@@ -7,7 +7,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import ModalGeneric from "../components/GenericModal";
 import appointmentService from "../../services/aryeo/AppointmentService";
 import RescheduleModal from "../components/RescheduleModal";
-import {textStyles} from "../styles/Styles";
+import {shortDateFormat, textStyles} from "../styles/Styles";
+import {makeDateTimeString} from "../functions/DateHandler";
 
 export default function Appointment({navigation}) {
 
@@ -15,29 +16,29 @@ export default function Appointment({navigation}) {
 
     const [cancelModalShow, setCancelModalShow] = useState(false)
     const [rescheduleModalShow, setRescheduleModalShow] = useState(false)
-    const [rescheduleModalText, setRescheduleModalText] = useState('Select start date')
+
+    function cancelEvent() {
+        // cancel appointment then update active appointment and dashboard to show updated canceled appointments
+        appointmentService.appointmentCancel(activeAppointment.id).then(() => {
+            appointmentService.appointment(activeAppointment.id).then((result) => {
+                setActiveAppointment(result.result.data);
+                appointmentService.appointments('CANCELED', '', 'UPCOMING', 1).then((result) => {
+                    setAppointments(result.result.data);
+                    setStatusFilter('CANCELED');
+                })
+
+            })
+        })
+        setCancelModalShow(false)
+    }
 
     return (
-        // screen for editting appointments, if it is a cancelled appointment, cancel button is not shown
+        // screen for editing appointments, if it is a cancelled appointment, cancel button is not shown
         <GenericScreen icon={'options'} title={'Appointment'} destination={'Settings'}>
             <ModalGeneric
                 modalVisible={cancelModalShow}
                 setModalVisible={setCancelModalShow}
-                confirmationAction={() =>
-                    {
-                        // cancel appointment then update active appointment and dashboard to show updated canceled appointments
-                        appointmentService.appointmentCancel(activeAppointment.id).then(() => {
-                            appointmentService.appointment(activeAppointment.id).then((result) => {
-                                setActiveAppointment(result.result.data);
-                                appointmentService.appointments('CANCELED', '', 'UPCOMING', 1).then((result) => {
-                                    setAppointments(result.result.data);
-                                    setStatusFilter('CANCELED');
-                                })
-
-                            })
-                        })
-                        setCancelModalShow(false)
-                    }}
+                confirmationAction={() => cancelEvent()}
                 text={'Are you sure you want to cancel this appointment?'}/>
             <RescheduleModal
                 activeAppointment={activeAppointment}
@@ -64,12 +65,12 @@ export default function Appointment({navigation}) {
                 <View
                     style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 3}}>
                     <Text style={[textStyles.smallBold, {flex: 1}]}>Start:</Text>
-                    <Text style={[textStyles.medium, {flex: 6}]}>{new Date(activeAppointment.start_at).toLocaleDateString(undefined,{weekday: "short", day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit'})}</Text>
+                    <Text style={[textStyles.medium, {flex: 6}]}>{makeDateTimeString(new Date(activeAppointment.start_at), shortDateFormat)}</Text>
                 </View>
                 <View
                     style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 3}}>
                     <Text style={[textStyles.smallBold, {flex: 1}]}>End:</Text>
-                    <Text style={[textStyles.medium, {flex: 6}]}>{new Date(activeAppointment.end_at).toLocaleDateString(undefined,{weekday: "short", day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit'})}</Text>
+                    <Text style={[textStyles.medium, {flex: 6}]}>{makeDateTimeString(new Date(activeAppointment.end_at), shortDateFormat)}</Text>
                 </View>
                 <View
                     style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, marginTop: 10}}>

@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import {settingsStyles, textStyles, viewStyles} from "../styles/Styles";
 import {AppContext} from "../providers/AppProvider";
+import GenericSwitch from "../components/GenericSwitch";
 
 
 export default function Settings({navigation}) {
@@ -74,40 +75,30 @@ export default function Settings({navigation}) {
                 >
                     <View style={settingsStyles.rowViewSpaced}>
                         <Text style={textStyles.medium}>Scheduled</Text>
-                        <Switch
-                            trackColor={{ false: "#767577", true: appColor }}
+                        <GenericSwitch
                             value={statusFilter === 'SCHEDULED'}
                             onValueChange={() => setStatusFilter('SCHEDULED')}
                         />
                     </View>
                     <View style={settingsStyles.rowViewSpaced}>
                         <Text style={textStyles.medium}>Unscheduled</Text>
-                        <Switch
-                            trackColor={{ false: "#767577", true: appColor }}
+                        <GenericSwitch
                             onValueChange={() => setStatusFilter('UNSCHEDULED')}
                             value={statusFilter === 'UNSCHEDULED'}
                         />
                     </View>
                     <View style={settingsStyles.rowViewSpaced}>
                         <Text style={textStyles.medium}>Canceled</Text>
-                        <Switch
-                            trackColor={{ false: "#767577", true: appColor }}
+                        <GenericSwitch
                             onValueChange={() => setStatusFilter('CANCELED')}
                             value={statusFilter === 'CANCELED'}
                         />
                     </View>
                     <View style={settingsStyles.rowViewSpaced}>
                         <Text style={textStyles.medium}>Drafts</Text>
-                        <Switch
-                            trackColor={{ false: "#767577", true: appColor }}
+                        <GenericSwitch
                             onValueChange={() => setStatusFilter('DRAFT')}
-                            thumbColor={Platform.OS === 'android' ? '#c7c7c7' : false}
                             value={statusFilter === 'DRAFT'}
-                            style={
-                                Platform.OS === 'android'
-                                    ? {transform: [{scaleX: 1.25}, {scaleY: 1.25}]}
-                                    : false
-                            }
                         />
                     </View>
                 </View>
@@ -118,16 +109,14 @@ export default function Settings({navigation}) {
                     <View style={viewStyles.doubleTab}>
                         <View style={settingsStyles.rowViewSpaced}>
                             <Text style={textStyles.medium}>Upcoming</Text>
-                            <Switch
-                                trackColor={{ false: "#767577", true: appColor }}
+                            <GenericSwitch
                                 value={historyFilter === 'UPCOMING'}
                                 onValueChange={() => setHistoryFilter('UPCOMING')}
                             />
                         </View>
                         <View style={settingsStyles.rowViewSpaced}>
                             <Text style={textStyles.medium}>Past</Text>
-                            <Switch
-                                trackColor={{ false: "#767577", true: appColor }}
+                            <GenericSwitch
                                 onValueChange={() => setHistoryFilter('PAST')}
                                 value={historyFilter === 'PAST'}
                             />
