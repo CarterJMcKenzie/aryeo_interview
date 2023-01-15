@@ -15,7 +15,7 @@ import GenericDatePicker from "./GenericDatePicker";
 
 export default function RescheduleModal({activeAppointment, modalVisible, setModalVisible}) {
     // I believe the boolean string error is in here, but I poked around and nothing seemed off
-    const {setActiveAppointment, setAppointments, setStatusFilter} = useContext(AppContext);
+    const {setSelectedAppointment, setAppointments, setStatusFilter} = useContext(AppContext);
     const [newStart, setNewStart] = useState(false);
     const [newEnd, setNewEnd] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -27,7 +27,7 @@ export default function RescheduleModal({activeAppointment, modalVisible, setMod
                 // reschedule the appointment then fetch the fresh data for this appointment and the dashboard
                 appointmentService.appointmentReschedule(activeAppointment.id, newStart, newEnd).then((response) => {
                     appointmentService.appointment(activeAppointment.id).then((result) => {
-                        setActiveAppointment(result.result.data);
+                        setSelectedAppointment(result.result.data);
                         appointmentService.appointments('SCHEDULED', '', 'UPCOMING', 1).then((result) => {
                             setAppointments(result.result.data);
                             setStatusFilter('SCHEDULED');

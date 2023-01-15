@@ -12,16 +12,16 @@ import {makeDateTimeString} from "../functions/DateHandler";
 
 export default function Appointment({navigation}) {
 
-    const {activeAppointment, fontSize, setActiveAppointment, setAppointments, setStatusFilter} = useContext(AppContext)
+    const {selectedAppointment, fontSize, setSelectedAppointment, setAppointments, setStatusFilter} = useContext(AppContext)
 
     const [cancelModalShow, setCancelModalShow] = useState(false)
     const [rescheduleModalShow, setRescheduleModalShow] = useState(false)
 
     function cancelEvent() {
         // cancel appointment then update active appointment and dashboard to show updated canceled appointments
-        appointmentService.appointmentCancel(activeAppointment.id).then(() => {
-            appointmentService.appointment(activeAppointment.id).then((result) => {
-                setActiveAppointment(result.result.data);
+        appointmentService.appointmentCancel(selectedAppointment.id).then(() => {
+            appointmentService.appointment(selectedAppointment.id).then((result) => {
+                setSelectedAppointment(result.result.data);
                 appointmentService.appointments('CANCELED', '', 'UPCOMING', 1).then((result) => {
                     setAppointments(result.result.data);
                     setStatusFilter('CANCELED');
@@ -41,7 +41,7 @@ export default function Appointment({navigation}) {
                 confirmationAction={() => cancelEvent()}
                 text={'Are you sure you want to cancel this appointment?'}/>
             <RescheduleModal
-                activeAppointment={activeAppointment}
+                activeAppointment={selectedAppointment}
                 modalVisible={rescheduleModalShow}
                 setModalVisible={setRescheduleModalShow}
             />
@@ -60,31 +60,31 @@ export default function Appointment({navigation}) {
                 <View
                     style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 3}}>
                     <Text style={[textStyles.smallBold, {flex: 1}]}>Title:</Text>
-                    <Text style={[textStyles.medium, {flex: 6}]}>{activeAppointment.title}</Text>
+                    <Text style={[textStyles.medium, {flex: 6}]}>{selectedAppointment.title}</Text>
                 </View>
                 <View
                     style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 3}}>
                     <Text style={[textStyles.smallBold, {flex: 1}]}>Start:</Text>
-                    <Text style={[textStyles.medium, {flex: 6}]}>{makeDateTimeString(new Date(activeAppointment.start_at), shortDateFormat)}</Text>
+                    <Text style={[textStyles.medium, {flex: 6}]}>{makeDateTimeString(new Date(selectedAppointment.start_at), shortDateFormat)}</Text>
                 </View>
                 <View
                     style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 3}}>
                     <Text style={[textStyles.smallBold, {flex: 1}]}>End:</Text>
-                    <Text style={[textStyles.medium, {flex: 6}]}>{makeDateTimeString(new Date(activeAppointment.end_at), shortDateFormat)}</Text>
+                    <Text style={[textStyles.medium, {flex: 6}]}>{makeDateTimeString(new Date(selectedAppointment.end_at), shortDateFormat)}</Text>
                 </View>
                 <View
                     style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, marginTop: 10}}>
                     <Text style={[textStyles.smallBold, {flex: 1}]}>Status:</Text>
-                    <Text style={[textStyles.medium, {flex: 6}]}>{activeAppointment.status}</Text>
+                    <Text style={[textStyles.medium, {flex: 6}]}>{selectedAppointment.status}</Text>
                 </View>
                 <View
                     style={{flexDirection: 'row', paddingHorizontal: 10, marginTop: 15}}
                 >
                     <Text style={[textStyles.smallBold, {flex: 1}]}>Notes:</Text>
-                    <Text style={[textStyles.small, {flex: 6, paddingTop: 0}]}>{activeAppointment.description}</Text>
+                    <Text style={[textStyles.small, {flex: 6, paddingTop: 0}]}>{selectedAppointment.description}</Text>
                 </View>
                 <View style={{flexDirection: 'row', marginTop: 30}}>
-                    {activeAppointment.status !== 'CANCELED' &&
+                    {selectedAppointment.status !== 'CANCELED' &&
                         <Pressable
                             style={{flex:1, alignItems: 'center'}}
                             onPress={() => {

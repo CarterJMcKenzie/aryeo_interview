@@ -9,21 +9,21 @@ async function appointment(appointment_id) {
     });
 }
 
-async function appointments(statusFilter, searchFilter, historyFilter, pageFilter) {
+async function appointments(statusFilter, searchFilter, historyFilter, activeMonth) {
+    let start_at_gte = activeMonth.toISOString()
+    let end_at_gte = new Date(activeMonth.getFullYear(), activeMonth.getMonth() + 1, 1).toISOString()
+    statusFilter = statusFilter.map((status) => '&filter[statuses][]=' + status).join('')
+    let params =
+        "?sort=" + "-start_at,-created_at" +
+        "&filter[search]=" + searchFilter +
+        statusFilter +
+        // "&filter[tense]=" + historyFilter +
+        "&filter[start_at_gte]=" + start_at_gte +
+        "&filter[start_at_lte]=" + end_at_gte +
+        "&per_page=" + 100
     return await aryeoRequest({
-        url: `/appointments`,
+        url: `/appointments` + params,
         method: "GET",
-        // Optional parameters...
-        params: {
-            "filter[search]": searchFilter, // (string) text search for appointment address or customer
-            "filter[statuses][]": statusFilter, // (string, multiple) possible values: SCHEDULED, UNSCHEDULED, CANCELED, DRAFT
-            "filter[tense]": historyFilter, // (string) possible values: PAST, UPCOMING
-            "filter[start_at_gte]": "2021-03-12T22:31:21Z", // (date string)
-            "filter[start_at_lte]": "2024-03-12T22:31:21Z", // (date string)
-            "sort": "-start_at,-created_at", // (string) comma-separated listed with -start_timestamp or -created_at
-            "per_page": 25, // (int)
-            "page": pageFilter, // (int)
-        },
         headers: authHeaders(),
     });
 }

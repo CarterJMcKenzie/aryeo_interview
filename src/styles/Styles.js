@@ -1,6 +1,25 @@
 import {StyleSheet} from 'react-native';
 
-export const fontSize1 = {
+export const smallFont = {
+    xsmall: 10,
+    small: 12,
+    medium: 16,
+    large: 20,
+    xlarge: 24,
+    xxlarge: 38,
+};
+
+export const standardFont = {
+    xsmall: 10,
+    small: 12,
+    medium: 16,
+    large: 20,
+    xlarge: 24,
+    xxlarge: 38,
+};
+
+export const largeFont = {
+    xsmall: 10,
     small: 12,
     medium: 16,
     large: 20,
@@ -20,6 +39,14 @@ export const screenStyles = StyleSheet.create({
     },
     headerView: {
         backgroundColor: '#ebebeb',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 0,
+        padding: 10,
+    },
+    headerViewWhite: {
+        backgroundColor: 'white',
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
@@ -56,49 +83,69 @@ export const viewStyles = StyleSheet.create({
 })
 
 export const textStyles = StyleSheet.create({
+    xsmallBold: {
+        fontSize: standardFont.xsmall,
+        fontWeight: 'bold',
+        color: 'black',
+    },
     smallBold: {
-        fontSize: fontSize1.small,
+        fontSize: standardFont.small,
         fontWeight: 'bold',
         color: 'black',
     },
     small: {
-        fontSize: fontSize1.small,
+        fontSize: standardFont.small,
         color: 'black',
     },
     mediumBold: {
-        fontSize: fontSize1.medium,
+        fontSize: standardFont.medium,
         fontWeight: 'bold',
         color: 'black',
     },
     medium: {
-        fontSize: fontSize1.medium,
+        fontSize: standardFont.medium,
         color: 'black',
     },
     largeBold: {
-        fontSize: fontSize1.large,
+        fontSize: standardFont.large,
         fontWeight: 'bold',
         color: 'black',
     },
     large: {
-        fontSize: fontSize1.large,
+        fontSize: standardFont.large,
         color: 'black',
     },
     xlargeBold: {
-        fontSize: fontSize1.xlarge,
+        fontSize: standardFont.xlarge,
         fontWeight: 'bold',
         color: 'black',
     },
     coloredButton: {
-        fontSize: fontSize1.medium,
+        fontSize: standardFont.medium,
         backgroundColor: '#f9d949',
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 15,
         overflow: 'hidden'
     },
-    coloredButtonSmall: {fontSize: fontSize1.small, backgroundColor: '#f9d949', paddingHorizontal: 7, paddingVertical: 2, borderRadius: 10, overflow: 'hidden'},
+    coloredButtonBold: {
+        fontSize: standardFont.medium,
+        color: '#2a2a2a',
+        textDecorationLine: "underline",
+        fontWeight: 'bold',
+        backgroundColor: '#f9d949',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 15,
+        overflow: 'hidden'
+    },
+    coloredButtonSmall: {fontSize: standardFont.small, backgroundColor: '#f9d949', paddingHorizontal: 7, paddingVertical: 2, borderRadius: 10, overflow: 'hidden'},
+    customColoredButtonSmall: {fontSize: standardFont.small, paddingHorizontal: 7, paddingVertical: 2, borderRadius: 10, overflow: 'hidden'},
+    coloredCircleSmall: {fontSize: standardFont.small, paddingHorizontal: 4, borderRadius: 8, overflow: 'hidden'},
+    customColoredButtonXSmall: {fontSize: standardFont.xsmall, paddingHorizontal: 7, paddingVertical: 2, borderRadius: 10, overflow: 'hidden'},
+
     textButton: {
-        fontSize: fontSize1.medium,
+        fontSize: standardFont.medium,
         color: '#2a2a2a',
         textDecorationLine: "underline",
         fontWeight: 'bold',
@@ -106,7 +153,7 @@ export const textStyles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
     },
-    sectionHeaderBold: {fontSize: fontSize1.medium, fontWeight: 'bold', borderColor: '#2a2a2a', color: 'black'},
+    sectionHeaderBold: {fontSize: standardFont.medium, fontWeight: 'bold', borderColor: '#2a2a2a', color: 'black'},
 });
 
 export const settingsStyles = StyleSheet.create({

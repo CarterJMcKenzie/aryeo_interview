@@ -9,7 +9,14 @@ import {makeDateString, makeTimeString} from "../functions/DateHandler";
 
 export default function AppointmentItem({appointment, index, previous}) {
     const navigator = useNavigation();
-    const {fontSize, setActiveAppointment} = useContext(AppContext);
+    const {fontSize, setSelectedAppointment} = useContext(AppContext);
+
+    const statusColors = {
+        'canceled': 'lightcoral',
+        'scheduled': 'darkseagreen',
+        'unscheduled': 'lemonchiffon',
+        'draft': 'lightblue'
+    };
 
     return (
         // conditionally renders the day of the week based on comparing it to the date above
@@ -32,7 +39,7 @@ export default function AppointmentItem({appointment, index, previous}) {
             <Pressable
                 style={{paddingVertical: 5, paddingHorizontal: 15}}
                 onPress={() => {
-                    setActiveAppointment(appointment)
+                    setSelectedAppointment(appointment)
                     navigator.navigate('Appointment');
                 }}
             >
@@ -40,13 +47,12 @@ export default function AppointmentItem({appointment, index, previous}) {
                 <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Text style={{marginTop: 3}}>{makeTimeString(new Date(appointment.start_at))} - {makeTimeString(new Date(appointment.end_at))}</Text>
                     <Text
-                        style={textStyles.coloredButtonSmall}
+                        style={[textStyles.customColoredButtonSmall, {backgroundColor: statusColors[appointment.status.toLowerCase()]}]}
                     >
                         {appointment.status}
                     </Text>
                 </View>
             </Pressable>
         </View>
-
     )
 }

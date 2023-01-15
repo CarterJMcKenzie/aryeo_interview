@@ -67,7 +67,34 @@ export function makeDateString(date, format) {
     }
 }
 
+export function makeMonthString(date, format) {
+    if (Platform.OS === 'ios') {
+        return date.toLocaleDateString('en-US', {
+            month: format.month,
+        });
+    } else {
+        let utc = date.getTime() + date.getTimezoneOffset() * 60000,
+            US_time = utc + 3600000 * -4,
+            US_date = new Date(US_time);
 
+        return (
+            month[format.month][US_date.getMonth()]
+        );
+    }
+}
+
+export function makeTimeStringShort(date) {
+    let hours = date.getHours();
+    // console.log('timezone:');
+    // console.log('date in ampm function', date);
+    // console.log('time in ampm function', date.getHours());
+    let minutes = date.getMinutes();
+    let ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    // minutes = minutes < 10 ? '0' + minutes : minutes;
+    return hours + ampm;
+}
 
 export function makeTimeString(date) {
     let hours = date.getHours();
